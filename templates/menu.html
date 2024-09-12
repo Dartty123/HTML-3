@@ -1,0 +1,15 @@
+{# "templates/menu.html" #}
+
+{% extends "_base.html" %}
+
+{% block content %}
+<table>
+    <tr>
+        <th>Назва піци</th>
+        <th>Склад</th>
+        <th>Ціна</th>
+    </tr>
+    {{ macros.max_price(pizzas)}}
+</table>
+<h1><em>Сума цін</em>: {{ pizzas|sum(attribute="price") }}</h1>
+{% endblock content %}
