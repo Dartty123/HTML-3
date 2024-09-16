@@ -12,10 +12,10 @@ def index():
 @app.get("/menu/")
 def menu():
     pizzas = [
-        {"name": "Гавайська", "price": 35},
-        {"name": "Цезаро", "price": 40},
-        {"name": "Маргарита", "price": 20},
-        {"name": "Mілано", "price": 25},
+        {"name": "Гавайська", "price": 35, "ingredients":"Курка, ананас, томат, сир"},
+        {"name": "Цезаро", "price": 40, "ingredients":"Соус'Цезар', листя салату, помідори, пармезан"},
+        {"name": "Маргарита", "price": 20, "ingredients":"Томат, помідори, сир"},
+        {"name": "Mілано", "price": 25, "ingredients":"Cоус, ковбаса 'Мілано', гриби, сир"},
 ]
     context = {
         "pizzas": pizzas,
