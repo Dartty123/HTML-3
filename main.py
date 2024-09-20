@@ -29,3 +29,25 @@ def menu():
 
 if __name__ == "__main__":
     app.run(debug=True)    
+
+    @app.get("/pizzas/")
+
+    def show_pizzas():
+        pizzas = db.get_pizzas()
+        _name = _name[0]
+        price = price[1]
+        ingredients =  ingredients
+    
+        return render_template("pizzas.html", **context)
+
+
+@app.get("/add_pizza/")
+def add_pizza():
+    return render_template("add_pizza.html")
+
+@app.post("/add_pizza/")
+def add_pizza_post():
+    data = request.form
+    print(f"{data = }")
+    db.insert_data(**data)
+    return redirect("/pizzas/", code=302)
