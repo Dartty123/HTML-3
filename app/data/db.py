@@ -84,34 +84,3 @@ def insert_data_by_employees(data: list):
         if sql_con:
             sql_con.close()
             print("З'єднання з базою даних успішно завершене")
-
-
-def get_students() -> dict:
-    data = {
-        "error": "",
-        "students": []
-    }
-
-    try:
-        sql_con = sqlite3.connect("first_db.db")
-        cursor = sql_con.cursor()
-
-        cursor.execute("SELECT * FROM Students;")
-        data["students"] = cursor.fetchall()
-
-        for item in data:
-            print(f"{item = }")
-
-        cursor.close()
-        print("Дані успішно записані")
-
-    except sqlite3.Error as error:
-        print("Помилка: ", error)
-        data["error"] = error
-
-    finally:
-        if sql_con:
-            sql_con.close()
-            print("З'єднання з базою даних успішно завершене")
-
-        return data
