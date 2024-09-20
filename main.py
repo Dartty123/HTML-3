@@ -1,4 +1,9 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect
+
+from app.data import db
+
+
+app = Flask(__name__, static_folder="app/static", template_folder="app/templates")
 
 
 app = Flask(__name__,)
