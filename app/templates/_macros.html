@@ -22,18 +22,18 @@ color: #00BFFF !important;
 {% macro max_price(pizzas) %}
 {% set supper_pizzas = pizzas|map(attribute="price")|max %}
 
-    {% for pizzas in pizas|sort(attribute="price")|sort(attribute="name", reverse=True) %}
-        {% if pizzas.price == supper_pizzas %}
+    {% for pizza in pizzas|sort(attribute="price")|sort(attribute="name", reverse=True) %}
+        {% if pizza.price == supper_pizza %}
         <tr>
             <td>Супер піца: {{ pizzas.name }}</td>
-            <td>{{ pizzas.ingredients }}</td>
-            <td>{{ pizzas.price }}</td>
+            <td>{{ pizza.ingredients }}</td>
+            <td>{{ pizza.price }}</td>
         </tr>
         {% else %}
         <tr>
-            <td>{{ pizzas.name }}</td>
-            <td>{{ pizzas.ingredients }}</td>
-            <td>{{ pizzas.price }}</td>
+            <td>{{ pizza.name }}</td>
+            <td>{{ pizza.ingredients }}</td>
+            <td>{{ pizza.price }}</td>
         </tr>
         {% endif %}
     {% endfor %}
