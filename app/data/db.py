@@ -3,10 +3,10 @@ import sqlite3
 
 def create_table():
     try:
-        sql_con = sqlite3.connect("pizzas.db")
+        sql_con = sqlite3.connect("PIZZA.db")
         cursor = sql_con.cursor()
 
-        with open("data/create_table.sql") as file:
+        with open("app/data/create_table.sql") as file:
             query = file.read()
 
         cursor.execute(query)
@@ -23,10 +23,10 @@ def create_table():
 
 def insert_data(name: str, ingredients: str, price: float):
     try:
-        sql_con = sqlite3.connect("pizzas.db")
+        sql_con = sqlite3.connect("PIZZA.db")
         cursor = sql_con.cursor()
 
-        query = "INSERT INTO Pizzas (name, ingredients, price) VALUES (?, ?, ?)"
+        query = "INSERT INTO PIZZA (name, ingredients, price) VALUES (?, ?, ?)"
         data = (name, ingredients, price)
 
         cursor.execute(query, data)
@@ -41,17 +41,17 @@ def insert_data(name: str, ingredients: str, price: float):
             sql_con.close()
 
 
-def get_pizzas():
+def get_PIZZA():
     try:
-        sql_con = sqlite3.connect("pizzas.db")
+        sql_con = sqlite3.connect("PIZZA.db")
         cursor = sql_con.cursor()
 
-        query = "SELECT * FROM Pizzas"
+        query = "SELECT * FROM PIZZA"
 
         cursor.execute(query)
-        pizzas = cursor.fetchall()
+        PIZZA = cursor.fetchall()
         cursor.close()
-        return pizzas
+        return PIZZA
 
     except sqlite3.Error as error:
         print(f"Error: {error}")

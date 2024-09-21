@@ -23,6 +23,7 @@ def menu():
     }
     return render_template("menu.html", **context)
 
+
 db.insert_data (**{"name": "Гавайська", "price": 35, "ingredients":"Курка, ананас, томат, сир"})
 db.insert_data (**{"name": "Цезаро", "price": 40, "ingredients":"Соус'Цезар', листя салату, помідори, пармезан"})  
 db.insert_data (**{"name": "Маргарита", "price": 20, "ingredients":"Томат, помідори, сир"})
