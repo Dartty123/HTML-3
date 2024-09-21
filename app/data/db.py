@@ -3,84 +3,59 @@ import sqlite3
 
 def create_table():
     try:
-        sql_con = sqlite3.connect("first_db.db")
+        sql_con = sqlite3.connect("pizzas.db")
         cursor = sql_con.cursor()
 
-        with open("create_table.sql") as fh:
-            query = fh.read()
+        with open("data/create_table.sql") as file:
+            query = file.read()
 
         cursor.execute(query)
         sql_con.commit()
         cursor.close()
-        print("Таблиця успішно створена")
 
     except sqlite3.Error as error:
-        print("Помилка: ", error)
+        print(f"Error: {error}")
 
     finally:
         if sql_con:
             sql_con.close()
-            print("З'єднання з базою даних успішно завершене")
 
 
-def insert_data():
+def insert_data(name: str, ingredients: str, price: float):
     try:
-        sql_con = sqlite3.connect("first_db.db")
+        sql_con = sqlite3.connect("pizzas.db")
         cursor = sql_con.cursor()
 
-        with open("insert_data.sql") as fh:
-            query = fh.read()
-
-        cursor.execute(query)
-        sql_con.commit()
-        cursor.close()
-        print("Дані успішно записані")
-
-    except sqlite3.Error as error:
-        print("Помилка: ", error)
-
-    finally:
-        if sql_con:
-            sql_con.close()
-            print("З'єднання з базою даних успішно завершене")
-
-
-def insert_data_by_values(first_name: str, last_name: str, age: int|None = None, grade: float|None = None):
-    try:
-        sql_con = sqlite3.connect("first_db.db")
-        cursor = sql_con.cursor()
-
-        query = "INSERT INTO Students (first_name, last_name, age, grade) VALUES (?, ?, ?, ?)"
-        data = (first_name, last_name, age, grade)
+        query = "INSERT INTO Pizzas (name, ingredients, price) VALUES (?, ?, ?)"
+        data = (name, ingredients, price)
 
         cursor.execute(query, data)
         sql_con.commit()
         cursor.close()
 
     except sqlite3.Error as error:
-        print(f"SQL_Error: {error}")
+        print(f"Error: {error}")
 
     finally:
         if sql_con:
             sql_con.close()
-            print("З'єднання з базою даних успішно завершене")
 
 
-def insert_data_by_employees(data: list):
+def get_pizzas():
     try:
-        sql_con = sqlite3.connect("first_db.db")
+        sql_con = sqlite3.connect("pizzas.db")
         cursor = sql_con.cursor()
 
-        query = "INSERT INTO Employees (first_name, last_name, age, position) VALUES (?, ?, ?, ?)"
+        query = "SELECT * FROM Pizzas"
 
-        cursor.executemany(query, data)
-        sql_con.commit()
+        cursor.execute(query)
+        pizzas = cursor.fetchall()
         cursor.close()
+        return pizzas
 
     except sqlite3.Error as error:
-        print(f"SQL_Error: {error}")
+        print(f"Error: {error}")
 
     finally:
         if sql_con:
             sql_con.close()
-            print("З'єднання з базою даних успішно завершене")

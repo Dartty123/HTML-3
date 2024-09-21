@@ -1,11 +1,8 @@
-from flask import Flask, render_template, request, redirect
-
+from flask import Flask,  render_template
 from app.data import db
 
 
-app = Flask(__name__, static_folder="app/static", template_folder="app/templates")
-
-
+app = Flask(__name__)
 
 @app.get("/")
 def index():
@@ -26,28 +23,7 @@ def menu():
     }
     return render_template("menu.html", **context)
 
-
-if __name__ == "__main__":
-    app.run(debug=True)    
-
-    @app.get("/pizzas/")
-
-    def show_pizzas():
-        pizzas = db.get_pizzas()
-        _name = _name[0]
-        price = price[1]
-        ingredients =  ingredients
-    
-        return render_template("pizzas.html", **context)
-
-
-@app.get("/add_pizza/")
-def add_pizza():
-    return render_template("add_pizza.html")
-
-@app.post("/add_pizza/")
-def add_pizza_post():
-    data = request.form
-    print(f"{data = }")
-    db.insert_data(**data)
-    return redirect("/pizzas/", code=302)
+db.insert_data (**{"name": "Гавайська", "price": 35, "ingredients":"Курка, ананас, томат, сир"})
+db.insert_data (**{"name": "Цезаро", "price": 40, "ingredients":"Соус'Цезар', листя салату, помідори, пармезан"})  
+db.insert_data (**{"name": "Маргарита", "price": 20, "ingredients":"Томат, помідори, сир"})
+db.insert_data (**{"name": "Mілано", "price": 25, "ingredients":"Cоус, ковбаса 'Мілано', гриби, сир"})  
