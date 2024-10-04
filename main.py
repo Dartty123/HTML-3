@@ -1,29 +1,16 @@
-from flask import Flask,  render_template
-from app.data import db
+from flask import Flask
+
+from app.routers.pizza import pizza_route 
+from app.models.pizza import Pizza
+from app.models.ingredient import Ingredient
+from app.models.base import create_db
 
 
-app = Flask(__name__, static_folder="app/static", template_folder="app/templates")
-
-
-@app.get("/")
-def index():
-    return render_template("index.html", title = "Вас вітає піцерія")
-
-@app.get("/menu/")
-def menu():
-    pizza_db = db.get_PIZZA()
-    pizzas = []
-    for pizza in pizza_db:
-        pizzas.append(
-            {"name": pizza[1], "ingredients": pizza[2], "price": pizza[3]}
-        )
-
-    context = {
-        "pizzas": pizzas,
-        "title": "меню"
-    }
-    return render_template("menu.html", **context)
+app = Flask(__name__)
+app.register_blueprint(pizza_route)
 
 
 if __name__ == "__main__":
+    create_db()
     app.run(debug=True)
+    
