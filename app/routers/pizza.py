@@ -12,15 +12,14 @@ pizza_route = Blueprint("pizzas", __name__)
 @pizza_route.get("/")
 def index():
     wheather = get_wheather("Neratovice")
-
     if 26 > wheather.get("temp") > 10:
-        pizza_name = "Тепла"
+        pizza_name = "Гавайська"
     elif wheather.get("temp") <= 10:
-        pizza_name = "Холодна"
+        pizza_name = "Морепіца"
     elif wheather.get("temp") > 26:
-        pizza_name = "Пепероні"
-
-    return render_template("index.html", title="Піцерія", wheather=wheather, pizza_name=pizza_name)
+        pizza_name = "Велика піца на компанію"
+    
+    return render_template("index.html", title="Піцерія", wheather=wheather,pizza_name=pizza_name)
 
 
 @pizza_route.get("/menu/")
