@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect
+from flask import Blueprint, render_template, request, redirect, url_for
 
 from app.models.base import Session
 from app.models.pizza import Pizza
@@ -35,7 +35,13 @@ def menu():
             "title": "меню",
             "wheather": wheather
         }
-        return render_template("menu.html", **context)
+        return render_template("menu.html", **context )
+
+def new_func1(context):
+    return new_func(context)
+
+def new_func(context):
+    return render_template("menu.html", **context)
 
 
 @pizza_route.post("/add_pizza/")
@@ -51,3 +57,27 @@ def add_pizza():
         session.add(pizza)
         session.commit()
         return redirect("/menu/")
+
+
+@pizza_route.get("/pizza/delete/<int:id>/")
+def del_pizza(id):
+    with Session() as session:
+        pizza = session.query(Pizza).where(Pizza.id == id).first()
+        session.delete(pizza)
+        session.commit()
+
+    return redirect(url_for("pizzas.index"))
+
+
+@pizza_route.get("/pizza/edit/<int:id>/")
+@pizza_route.post("/pizza/edit/<int:id>/")
+def edit_pizza(id):
+    with Session() as session:
+        pizza = session.query(Pizza).where(Pizza.id == id).first()
+
+        if request.method == "Pizza":
+            pizza.name = request.form.get("name")
+            pizza.price = request.form.get("price")
+            session.commit()
+            return redirect(url_for("pizzas.get_pizza", id=id))
+        return render_template("edit_pizza.html", pizza=pizza)

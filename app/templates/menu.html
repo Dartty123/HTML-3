@@ -21,6 +21,8 @@
                     {{ ingredient.name }}|
                 {% endfor %}
             </td>
+            <a href="{{ url_for('pizzas.del_pizza', id=pizza.id) }}">Видалити піцу</a>
+            <a href="{{ url_for('pizzas.edit_pizza', id=pizza.id) }}">Редагувати</a>
         </tr>
     {% endfor %}
 </table>
@@ -44,5 +46,13 @@
     </p>
     <button type="submit">Додати піцу</button>
 </form>
+
+
+
+  {% with messages = get_flashed_messages() %}
+    {% for message in messages %}
+      <div id="pizzas" class="form-text">{{ message }}</div>
+    {% endfor %}
+  {% endwith %}
 
 {% endblock content %}

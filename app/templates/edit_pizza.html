@@ -1,0 +1,17 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+
+<form action="{{ url_for('pizzas.edit_pizza', id=pizza.id)}}" method="post">
+    <p>
+        <label>Назва піци</label>
+        <input type="text" name="name" value="{{pizza.name}}">
+    </p>
+    <p>
+        <label>Ціна</label>
+        <input type="number" name="price" value="{{pizza.price}}">
+    </p>
+    <button type="submit">Додати піцу</button>
+</form>
+{% endblock content %}
