@@ -4,6 +4,7 @@ from app.models.base import Session
 from app.models.pizza import Pizza
 from app.models.ingredient import Ingredient
 from app.data.wheather import get_wheather
+from app.data import wheather
 
 
 pizza_route = Blueprint("pizzas", __name__)
@@ -72,6 +73,6 @@ def edit_pizza(id):
             pizza.name = request.form.get("name")
             pizza.price = request.form.get("price")
             session.commit()
-            return redirect(url_for("pizzas.get_pizza", id=id))
-        return render_template("edit_pizza.html", pizza=pizza)
-    return render_template("edit_pizza.html", pizza=pizza, wheather=wheather)
+            return redirect(url_for("pizzas.menu", ))
+        return render_template("edit_pizza.html", pizza=pizza, wheather=wheather)
+    
