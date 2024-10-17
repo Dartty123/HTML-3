@@ -37,13 +37,6 @@ def menu():
         }
         return render_template("menu.html", **context )
 
-def new_func1(context):
-    return new_func(context)
-
-def new_func(context):
-    return render_template("menu.html", **context)
-
-
 @pizza_route.post("/add_pizza/")
 def add_pizza():
     with Session() as session:
@@ -81,3 +74,4 @@ def edit_pizza(id):
             session.commit()
             return redirect(url_for("pizzas.get_pizza", id=id))
         return render_template("edit_pizza.html", pizza=pizza)
+    return render_template("edit_pizza.html", pizza=pizza, wheather=wheather)
