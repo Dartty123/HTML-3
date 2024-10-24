@@ -69,7 +69,7 @@ def edit_pizza(id):
     with Session() as session:
         pizza = session.query(Pizza).where(Pizza.id == id).first()
 
-        if request.method == "Pizza":
+        if request.method == "POST":
             pizza.name = request.form.get("name")
             pizza.price = request.form.get("price")
             session.commit()
