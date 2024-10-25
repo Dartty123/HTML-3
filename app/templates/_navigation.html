@@ -1,7 +1,7 @@
 {# "templates/_navigation.html" #}
 
 <nav>
-{% for menu_item in ["pizzas.index", "pizzas.menu"] %}
+{% for menu_item in ["pizzas.index", "pizzas.menu", "pizzas.results"] %}
 <button>
     <a href="{{ url_for(menu_item) }}">{{ menu_item|upper }}</a>
 </button>
@@ -9,6 +9,5 @@
 </nav>
 
 <div>
-    <a href="{{ url_for('index') }}">Головна сторінка</a>
-    <a href="{{ url_for('results') }}">Результати опитування</a>
+    <a href="{{ url_for('pizzas.results') }}">Результати опитування</a>
 </div>

@@ -76,3 +76,26 @@ def edit_pizza(id):
             return redirect(url_for("pizzas.menu", ))
         return render_template("edit_pizza.html", pizza=pizza, wheather=wheather)
     
+@pizza_route.get("/")
+def index():
+        context = {
+            "question": "Яка піца тобі найбільше подобаєтся",
+            "answers": ["Гавайська, Морепіца, Велика піца на компію"]
+    }
+        return render_template("index.html", **context)
+
+@pizza_route.get("/add_vote/")
+def add_vote():
+    vote = request.args.get("answer")
+    with open("data/answers.txt", "a", encoding="utf-8") as file:
+        file.write(vote + "\n")
+
+    return redirect(url_for("results"))
+
+
+@pizza_route.get("/results/")
+def results():
+    with open("data/answers.txt", "r", encoding="utf-8") as file:
+        answers = file.readlines()
+
+    return render_template("results.html", answers=answers)
