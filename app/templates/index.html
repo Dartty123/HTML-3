@@ -7,4 +7,17 @@
 <h1><p>Пропонуємо таку піцу: <em>{{ pizza_name }}</em></p></h1>
 
 <a type="button", href="/menu"><em>Перейти в меню</em></button>
-{% endblock content %}
+    
+    <form action="{{ url_for('add_vote') }}">
+        <label class="form-check-label">{{ question }}</label>
+        {% for answer in answers %}
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="answer" value="{{ answer }}" id="flexRadioDefault1">
+                <label class="form-check-label" for="flexRadioDefault1">
+                    {{ answer }}
+                </label>
+            </div>
+        {% endfor %}
+        <input type="submit">
+    </form>
+    {% endblock content %}
