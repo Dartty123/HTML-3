@@ -7,7 +7,7 @@
 <h1><p>Пропонуємо таку піцу: <em>{{ pizza_name }}</em></p></h1>
 
 <a type="button", href="/menu"><em>Перейти в меню</em></button>
-    
+
     <form action="{{ url_for('add_vote') }}">
         <label class="form-check-label">{{ question }}</label>
         {% for answer in answers %}
@@ -17,6 +17,7 @@
                     {{ answer }}
                 </label>
             </div>
+            {% include "_wheather.html" %}
         {% endfor %}
         <input type="submit">
     </form>

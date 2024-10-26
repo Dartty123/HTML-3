@@ -4,7 +4,6 @@ from app.models.base import Session
 from app.models.pizza import Pizza
 from app.models.ingredient import Ingredient
 from app.data.wheather import get_wheather
-from app.data import wheather
 
 
 pizza_route = Blueprint("pizzas", __name__)
@@ -20,7 +19,7 @@ def index():
     elif wheather.get("temp") > 26:
         pizza_name = "Велика піца на компанію"
     
-    return render_template("index.html", title="Піцерія", wheather=wheather,pizza_name=pizza_name)
+    return render_template("poll.html", title="Піцерія", wheather=get_wheather,pizza_name=pizza_name)
 
 
 @pizza_route.get("/menu/")
@@ -74,20 +73,20 @@ def edit_pizza(id):
             pizza.price = request.form.get("price")
             session.commit()
             return redirect(url_for("pizzas.menu", ))
-        return render_template("edit_pizza.html", pizza=pizza, wheather=wheather)
+        return render_template("edit_pizza.html", pizza=pizza, wheather=get_wheather)
     
 @pizza_route.get("/")
-def index():
+def poll():
         context = {
             "question": "Яка піца тобі найбільше подобаєтся",
             "answers": ["Гавайська, Морепіца, Велика піца на компію"]
     }
-        return render_template("index.html", **context)
+        return render_template("poll.html", **context)
 
 @pizza_route.get("/add_vote/")
 def add_vote():
     vote = request.args.get("answer")
-    with open("data/answers.txt", "a", encoding="utf-8") as file:
+    with open("app/data/answers.txt", "a", encoding="utf-8") as file:
         file.write(vote + "\n")
 
     return redirect(url_for("results"))
@@ -95,7 +94,7 @@ def add_vote():
 
 @pizza_route.get("/results/")
 def results():
-    with open("data/answers.txt", "r", encoding="utf-8") as file:
+    with open("app/data/answers.txt", "r", encoding="utf-8") as file:
         answers = file.readlines()
 
     return render_template("results.html", answers=answers)
