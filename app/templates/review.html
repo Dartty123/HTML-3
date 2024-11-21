@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form action="{{ url_for('review') }}" method="post">
+    <div class="form-group">
+        {{ form.name.label }}
+        {{ form.name(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.grades.label }}
+        {{ form.grades(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.review.label }}
+        {{ form.review(class="form-control") }}
+    </div>
+    {{ form.submit }}
+</form>
+{% endblock content %}
