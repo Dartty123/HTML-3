@@ -8,6 +8,8 @@ from app.models.base import create_db
 
 app = Flask(__name__,static_folder="app/static",template_folder="app/templates")
 app.register_blueprint(pizza_route)
+app.secret_key = "2344321"
+
 
 
 if __name__ == "__main__":

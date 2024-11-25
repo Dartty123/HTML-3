@@ -4,7 +4,8 @@ from app.models.base import Session
 from app.models.pizza import Pizza
 from app.models.ingredient import Ingredient
 from app.data.wheather import get_wheather
-
+from app.models import pizza
+from app.forms import forms
 
 pizza_route = Blueprint("pizzas", __name__)
 
@@ -98,3 +99,52 @@ def results():
         answers = file.readlines()
 
     return render_template("results.html", answers=answers)
+
+
+@pizza_route.get("/", methods=["GET", "POST"])
+def index():
+    with Session() as session:
+        pizzas = session.query(pizza.pizza).all()
+        pizza_form = forms.PizzaForm()
+        pizza_form.pizzas.choices = []
+
+        for pizza in pizzas:
+            pizza_form.pizzas.choices.append((pizza.name, pizza.name))
+
+        if request.method == "POST":
+            name = pizza_form.name.data
+            pizzas = pizza_form.pizzas.data
+            pizzas_db = []
+
+            for pizza in pizzas:
+                pizza_db = session.query(pizza.pizza).where(pizza.pizza.name == pizza).first()
+                pizzas_db.append(pizza_db)
+
+            shop_list = pizza.ShopList(name=name, pizzas=pizzas_db)
+            session.add(shop_list)
+            session.commit()
+
+        return render_template("index.html", form=pizza_form)
+
+
+@pizza_route.get("/review/", methods=["GET", "POST"])
+def review():
+    with Session() as session:
+        review_form = forms.ReviewForm()
+        review_form.grades.choices = [(1, 1), (2, 2), (3, 3)]
+        grades = session.query(pizza.Grade).all()
+
+        for grade in grades:
+            review_form.grades.choices.append((grade.grade, grade.grade))
+
+        if request.method == "POST":
+            name = review_form.name.data
+            grade = review_form.grades.data
+            grade_db = session.query(pizza.Grade).where(pizza.Grade.grade == grade).first()
+            text = review_form.review.data
+
+            review_db = pizza.Review(name=name, grade=grade_db, text=text)
+            session.add(review_db)
+            session.commit()
+
+        return render_template("review.html", form=review_form)

@@ -18,7 +18,7 @@ class Pizza(Base):
 
 
 assoc_pizza = Table(
-    "assoc_product",
+    "assoc_pizza",
     Base.metadata,
     Column("name_id", ForeignKey("shoplist.id")),
     Column("pizzas_id", ForeignKey("pizzas_id"))

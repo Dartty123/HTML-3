@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 import wtforms
 
 
-class ProductForm(FlaskForm):
+class PizzaForm(FlaskForm):
     name = wtforms.StringField("Введіть своє ім'я")
     pizzas = wtforms.SelectMultipleField("Виберіть піцу")
     submit = wtforms.SubmitField("Купити")
