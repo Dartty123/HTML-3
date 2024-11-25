@@ -19,6 +19,29 @@ def index():
         pizza_name = "Морепіца"
     elif wheather.get("temp") > 26:
         pizza_name = "Велика піца на компанію"
+
+    with Session() as session:
+        pizzas = session.query(pizza.pizza).all()
+        pizza_form = forms.PizzaForm()
+        pizza_form.pizzas.choices = []
+
+        for pizza in pizzas:
+            pizza_form.pizzas.choices.append((pizza.name, pizza.name))
+
+        if request.method == "POST":
+            name = pizza_form.name.data
+            pizzas = pizza_form.pizzas.data
+            pizzas_db = []
+
+            for pizza in pizzas:
+                pizza_db = session.query(pizza.pizza).where(pizza.pizza.name == pizza).first()
+                pizzas_db.append(pizza_db)
+
+            shop_list = pizza.ShopList(name=name, pizzas=pizzas_db)
+            session.add(shop_list)
+            session.commit()
+
+        return render_template("index.html", form=pizza_form)
     
     return render_template("poll.html", title="Піцерія", wheather=get_wheather,pizza_name=pizza_name)
 
@@ -99,32 +122,6 @@ def results():
         answers = file.readlines()
 
     return render_template("results.html", answers=answers)
-
-
-@pizza_route.get("/", methods=["GET", "POST"])
-def index():
-    with Session() as session:
-        pizzas = session.query(pizza.pizza).all()
-        pizza_form = forms.PizzaForm()
-        pizza_form.pizzas.choices = []
-
-        for pizza in pizzas:
-            pizza_form.pizzas.choices.append((pizza.name, pizza.name))
-
-        if request.method == "POST":
-            name = pizza_form.name.data
-            pizzas = pizza_form.pizzas.data
-            pizzas_db = []
-
-            for pizza in pizzas:
-                pizza_db = session.query(pizza.pizza).where(pizza.pizza.name == pizza).first()
-                pizzas_db.append(pizza_db)
-
-            shop_list = pizza.ShopList(name=name, pizzas=pizzas_db)
-            session.add(shop_list)
-            session.commit()
-
-        return render_template("index.html", form=pizza_form)
 
 
 @pizza_route.get("/review/", methods=["GET", "POST"])
