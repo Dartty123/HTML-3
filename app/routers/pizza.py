@@ -1,10 +1,9 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 
 from app.models.base import Session
-from app.models.pizza import Pizza
+from app.models.pizza import Pizza,Review,Grade
 from app.models.ingredient import Ingredient
 from app.data.wheather import get_wheather
-from app.models import pizza
 from app.forms import forms
 
 pizza_route = Blueprint("pizzas", __name__)
@@ -99,7 +98,7 @@ def edit_pizza(id):
             return redirect(url_for("pizzas.menu", ))
         return render_template("edit_pizza.html", pizza=pizza, wheather=get_wheather)
     
-@pizza_route.get("/")
+@pizza_route.get("/poll/")
 def poll():
         context = {
             "question": "Яка піца тобі найбільше подобаєтся",
@@ -124,12 +123,12 @@ def results():
     return render_template("results.html", answers=answers)
 
 
-@pizza_route.get("/review/", methods=["GET", "POST"])
+@pizza_route.route("/review/", methods=["GET", "POST"])
 def review():
     with Session() as session:
         review_form = forms.ReviewForm()
         review_form.grades.choices = [(1, 1), (2, 2), (3, 3)]
-        grades = session.query(pizza.Grade).all()
+        grades = session.query(Grade).all()
 
         for grade in grades:
             review_form.grades.choices.append((grade.grade, grade.grade))
@@ -137,10 +136,10 @@ def review():
         if request.method == "POST":
             name = review_form.name.data
             grade = review_form.grades.data
-            grade_db = session.query(pizza.Grade).where(pizza.Grade.grade == grade).first()
+            grade_db = session.query(Grade).where(Grade.grade == grade).first()
             text = review_form.review.data
 
-            review_db = pizza.Review(name=name, grade=grade_db, text=text)
+            review_db = Review(name=name, grade=grade_db, text=text)
             session.add(review_db)
             session.commit()
 
