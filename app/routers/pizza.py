@@ -20,7 +20,7 @@ def index():
         pizza_name = "Велика піца на компанію"
 
     with Session() as session:
-        pizzas = session.query(pizza.pizza).all()
+        pizzas = session.query(Pizza).all()
         pizza_form = forms.PizzaForm()
         pizza_form.pizzas.choices = []
 

@@ -20,12 +20,12 @@ class Pizza(Base):
 assoc_pizza = Table(
     "assoc_pizza",
     Base.metadata,
-    Column("name_id", ForeignKey("shoplist.id")),
-    Column("pizzas_id", ForeignKey("pizzas_id"))
+    Column("name_id", ForeignKey("pizzalist.id")),
+    Column("pizzas_id", ForeignKey("pizzas.id"))
 )
 
 class ShopList(Base):
-    __tablename__ = "pizzlist"
+    __tablename__ = "pizzalist"
 
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(100))
