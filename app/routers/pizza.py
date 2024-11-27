@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 
 from app.models.base import Session
-from app.models.pizza import Pizza,Review,Grade
+from app.models.pizza import Pizza,Review,Grade,MenuList
 from app.models.ingredient import Ingredient
 from app.data.wheather import get_wheather
 from app.forms import forms
@@ -23,7 +23,6 @@ def index():
         pizzas = session.query(Pizza).all()
         pizza_form = forms.PizzaForm()
         pizza_form.pizzas.choices = []
-
         for pizza in pizzas:
             pizza_form.pizzas.choices.append((pizza.name, pizza.name))
 
@@ -33,11 +32,11 @@ def index():
             pizzas_db = []
 
             for pizza in pizzas:
-                pizza_db = session.query(pizza.pizza).where(pizza.pizza.name == pizza).first()
+                pizza_db = session.query(Pizza).where(Pizza.pizza.name == pizza).first()
                 pizzas_db.append(pizza_db)
 
-            shop_list = pizza.ShopList(name=name, pizzas=pizzas_db)
-            session.add(shop_list)
+            menu_list = pizza.MenuList(name=name, pizzas=pizzas_db)
+            session.add(menu_list)
             session.commit()
 
         return render_template("index.html", form=pizza_form)

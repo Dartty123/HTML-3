@@ -24,7 +24,7 @@ assoc_pizza = Table(
     Column("pizzas_id", ForeignKey("pizzas.id"))
 )
 
-class ShopList(Base):
+class MenuList(Base):
     __tablename__ = "pizzalist"
 
     id: Mapped[int] = mapped_column(primary_key=True)
