@@ -126,7 +126,7 @@ def results():
 def review():
     with Session() as session:
         review_form = forms.ReviewForm()
-        review_form.grades.choices = [(1, 1), (2, 2), (3, 3)]
+        review_form.grades.choices = [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
         grades = session.query(Grade).all()
 
         for grade in grades:
