@@ -9,7 +9,7 @@ from app.forms import forms
 pizza_route = Blueprint("pizzas", __name__)
 
 
-@pizza_route.get("/")
+@pizza_route.route("/", methods=["GET", "POST"])
 def index():
     wheather = get_wheather("Neratovice")
     if 26 > wheather.get("temp") > 10:
@@ -32,10 +32,10 @@ def index():
             pizzas_db = []
 
             for pizza in pizzas:
-                pizza_db = session.query(Pizza).where(Pizza.pizza.name == pizza).first()
+                pizza_db = session.query(Pizza).where(Pizza.name == pizza).first()
                 pizzas_db.append(pizza_db)
 
-            menu_list = pizza.MenuList(name=name, pizzas=pizzas_db)
+            menu_list = MenuList(name=name, pizzas=pizzas_db)
             session.add(menu_list)
             session.commit()
 
